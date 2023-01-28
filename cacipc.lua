@@ -1835,8 +1835,8 @@ function cacipc_proto.dissector(tvbuf, pktinfo, root)
       end
     end
   else
-    -- Mark the protocol as CACIPC as the minimum requirements for it to be considered a CAC IPC protocol packet is the
-    -- identifier and the packet length being 26 or more bytes.
+    -- Mark the protocol as CACIPC as the full list of requirements for it to be considered a CAC IPC protocol packet
+    -- have been met.
     pktinfo.columns.protocol = cacipc_proto.name
 
     -- Get the packet data.
@@ -1915,8 +1915,8 @@ local tcp_port_table = DissectorTable.get("tcp.port")
 tcp_port_table:add(CACIPC_PROTO_PORT, cacipc_proto)
 
 
--- Heuristic function for detecting CAC IPC protocol when not on the default TCP port. This is very unlikely to happen,
--- was done more as an exercise to learn how to do it than anything else.
+-- Heuristic function for detecting CAC IPC protocol when not on the default TCP port. Happens with vpndownloader.exe
+-- which listens on a random port for IPC messages.
 local function heuristic_cacipc(tvbuf, pktinfo, root)
   -- Check if the packet matches the expectations. For the heuristic to accept the packet as a CAC IPC there cannot be
   -- any validation errors. This is not the case in the dissector that is called from a match on the TCP port.
